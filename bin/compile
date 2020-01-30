@@ -6,29 +6,16 @@ indent() {
 BUILD_DIR="$1"
 CACHE_DIR="$2"
 ENV_DIR="$3"
-STAGE="$(mktemp -d)"
-STAGE2="$(mktemp -d)"
-
-
-echo "stage1: ${STAGE1}"
-echo "stage2: ${STAGE2}"
 
 if [ ! -f "${ENV_DIR}/APP_BASE" ]; then
     echo "APP_BASE was not set. Aborting" | indent
     exit 1
 fi
+
 APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
 APP_BASE2="$(cat "${ENV_DIR}/APP_BASE2")"
 
-echo $APP_BASE
-echo $APP_BASE2
-
 (
-    #mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
-    #mv "${BUILD_DIR}/${APP_BASE2}" "${STAGE2}" &&
-    #rm -rf "${BUILD_DIR}" &&
-    #mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}" &&
-    #mv "${STAGE2}/$(basename "$APP_BASE2")" "${BUILD_DIR}"
     cp -a "${BUILD_DIR}/${APP_BASE}/." "${BUILD_DIR}/" &&
     cp -a "${BUILD_DIR}/${APP_BASE2}/." "${BUILD_DIR}/"
 )
@@ -38,4 +25,4 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Copied ${APP_BASE} ${APP_BASE2} to root of app successfully" | indent
+echo "Copied ${APP_BASE}, ${APP_BASE2} to root of app successfully" | indent
